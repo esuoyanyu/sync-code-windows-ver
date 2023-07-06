@@ -1,4 +1,4 @@
-:: this code sync source code frome service
+:: this script function sync source code frome linux service
 
 set USER_NAME=service user name
 set SERVICE_NAME=ip or domain
@@ -26,21 +26,21 @@ if "%3" neq "" (
 @echo "%DES_DIR%"
 
 ssh -p %SERVICE_PORT% %USER_NAME%@%SERVICE_NAME% "cd %SRC_DIR%/.. && tar -jcf %DES_DIR% %SYNC_DIR%;"
-if "%errorlevel%" != 0 (
+if "%errorlevel%" neq "0" (
 	echo "tar %SYNC_DIR% failed"
 	pause
 	exit 1
 )
 
 scp -P %SERVICE_PORT% %USER_NAME%@%SERVICE_NAME%:%SRC_DIR%/../%DES_DIR% %SAVE_DIR%
-if "%errorlevel%" != 0 (
+if "%errorlevel%" neq "0" (
 	echo "sync %SYNC_DIR% failed"
 	pause
 	exit 1
 )
 
 ssh -p %SERVICE_PORT% %USER_NAME%@%SERVICE_NAME% "cd %SRC_DIR%/.. && rm -rf %DES_DIR%;"
-if "%errorlevel%" != 0 (
+if "%errorlevel%" neq "0" (
 	echo "remove %DES_DIR% failed"
 	pause
 	exit 1
